@@ -270,6 +270,7 @@ function buildWeek(){
         if(entry){
           td.innerHTML = `<div>${entry.drug}(${entry.eye})</div><div class="time">${entry.time}</div>`;
           td.className = drugClass(entry.drug);
+          td.style.color = drugColor(entry.drug);
         }
         tr.appendChild(td);
       }
