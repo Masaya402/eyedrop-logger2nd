@@ -94,8 +94,11 @@ if(printBtn){ printBtn.addEventListener("click",()=>window.print()); }
 const manualBtn = document.getElementById("manualBtn");
 if(manualBtn){
   manualBtn.addEventListener("click",()=>{
-    const dateStr = prompt("YYYY-MM-DD HH:mm 形式で入力", "");
+    let dateStr = prompt("YYYY-MM-DD HH:mm の形式で入力", "");
     if(!dateStr) return;
+    dateStr = dateStr.trim();
+    // replace space with T for ISO
+    if(dateStr.includes(" ")) dateStr = dateStr.replace(" ", "T");
     const d = new Date(dateStr);
     if(isNaN(d)) { alert("日時の形式が不正です"); return; }
     const entry = {date:d.toISOString(), type:typeSelect.value};
