@@ -15,10 +15,15 @@ ph.disabled = true;
 ph.selected = true;
 typeSelect.appendChild(ph);
 
+typeSelect.addEventListener("change",()=>{
+  typeSelect.className = drugClass(typeSelect.value);
+});
+
 TYPES.forEach(t => {
   const opt = document.createElement("option");
   opt.value = t;
   opt.textContent = t;
+  opt.className = drugClass(t);
   typeSelect.appendChild(opt);
 });
 
