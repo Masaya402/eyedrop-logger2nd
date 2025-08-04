@@ -50,6 +50,14 @@ function prune(arr) {
   const cutoff = Date.now() - MAX_DAYS * 24 * 60 * 60 * 1000;
   return arr.filter(e => new Date(e.date).getTime() >= cutoff);
 }
+function launchConfetti(){
+  if(typeof confetti === "function"){
+    confetti({spread:90,particleCount:120});
+  }else{
+    setTimeout(launchConfetti,200);
+  }
+}
+
 function checkDailyComplete(){
   const today = new Date();
   const y = today.getFullYear(), m = today.getMonth(), d = today.getDate();
@@ -76,7 +84,7 @@ function checkDailyComplete(){
     }
     if(!window._celebrated){
       window._celebrated = true;
-      confetti({spread:90,particleCount:120});
+      launchConfetti()
     }
   }else{
     if(streakMsg) streakMsg.textContent = "";
