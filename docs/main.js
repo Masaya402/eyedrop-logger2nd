@@ -1,4 +1,4 @@
-const TYPES = ["プラノプロフェン","エピナスチン","ピレノキシン"];
+const TYPES = ["ピレノキシン","エピナスチン","プラノプロフェン"];
 const MAX_DAYS = 180;
 const STORAGE_KEY = "eyedrop_entries";
 
@@ -186,7 +186,7 @@ function buildWeek(){
 function drugColor(name){
   if(name==="プラノプロフェン") return "#8bc34a";
   if(name==="エピナスチン") return "orange";
-  return "white";
+  return "black";
 }
 
 function drugClass(name){
