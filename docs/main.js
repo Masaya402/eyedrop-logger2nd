@@ -114,6 +114,12 @@ function buildWeek(){
   data.sort((a,b)=> newestFirst ? new Date(b.date)-new Date(a.date) : new Date(a.date)-new Date(b.date));
   // weeks[key] => array[7] each is array of {drug,time}
   const weeks={};
+  // always include next week placeholder to allow future scheduling
+  const next = new Date();
+  next.setDate(next.getDate()+7);
+  const nextKey = getISOWeekString(next);
+  if(!weeks[nextKey]) weeks[nextKey] = [[],[],[],[],[],[],[]];
+
   data.forEach(e=>{
     const d=new Date(e.date);
     const key=getISOWeekString(d);
