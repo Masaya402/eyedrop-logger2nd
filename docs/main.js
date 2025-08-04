@@ -66,7 +66,79 @@ document.getElementById("clearBtn").addEventListener("click",()=>{
   }
 });
 
-// 週表示切替と生成\nconst toggleBtn=document.getElementById("toggleView");\nconst weekDiv=document.getElementById("weekView");\n\nif(toggleBtn){\n  toggleBtn.addEventListener("click",()=>{\n    if(logList.style.display!=="none"){\n      logList.style.display="none";\n      buildWeek();\n      weekDiv.style.display="block";\n      toggleBtn.textContent="一覧表示";\n    }else{\n      weekDiv.style.display="none";\n      logList.style.display="block";\n      toggleBtn.textContent="週表示";\n    }\n  });\n}\n\nfunction buildWeek(){\n  const data=load();\n  const weeks={};\n  data.forEach(e=>{\n    const d=new Date(e.date);\n    const key=getISOWeekString(d);\n    if(!weeks[key]) weeks[key]=new Array(7).fill(false);\n    weeks[key][d.getDay()]=true;\n  });\n  weekDiv.innerHTML="";\n  const sortedKeys=Object.keys(weeks).sort().reverse();\n  const days=["日","月","火","水","木","金","土"];\n  // header\n  const header=document.createElement("div");\n  header.style.display="grid";\n  header.style.gridTemplateColumns="repeat(7,2rem)";\n  days.forEach(d=>{const c=document.createElement("div");c.textContent=d;c.style.fontWeight="bold";c.style.textAlign="center";weekDiv.appendChild(c);});\n  // rows\n  sortedKeys.forEach(k=>{\n    const row=document.createElement("div");\n    row.style.display="grid";\n    row.style.gridTemplateColumns="repeat(7,2rem)";\n    weeks[k].forEach(val=>{\n      const cell=document.createElement("div");\n      cell.style.border="1px solid #555";\n      cell.style.height="2rem";\n      cell.style.display="flex";\n      cell.style.alignItems="center";\n      cell.style.justifyContent="center";\n      cell.textContent=val?"✓":"";\n      row.appendChild(cell);\n    });\n    weekDiv.appendChild(row);\n  });\n}\nfunction getISOWeekString(d){\n  const t=new Date(d.getFullYear(),0,1);\n  const dayMS=86400000;\n  return d.getFullYear()+"-"+Math.ceil((((d-t)/dayMS)+t.getDay()+1)/7);\n}\n\n// Service Worker registration for offline usage
+// 週表示切替と生成
+const toggleBtn=document.getElementById("toggleView");\nconst weekDiv=document.getElementById("weekView");\n\nif(toggleBtn){\n  toggleBtn.addEventListener("click",()=>{\n    if(logList.style.display!=="none"){\n      logList.style.display="none";\n      buildWeek();\n      weekDiv.style.display="block";\n      toggleBtn.textContent="一覧表示";\n    }else{\n      weekDiv.style.display="none";\n      logList.style.display="block";\n      toggleBtn.textContent="週表示";\n    }\n  });\n}\n\nfunction buildWeek(){
+  weekDiv.innerHTML="";
+  // weeks[key] => array[7] each is array of {drug,time}
+  const weeks={};
+  data.forEach(e=>{
+    const d=new Date(e.date);
+    const key=getISOWeekString(d);
+    if(!weeks[key]) weeks[key]=[[],[],[],[],[],[],[]];
+    weeks[key][d.getDay()].push({drug:e.type,time:formatTime(d)});
+  });
+  const sortedKeys=Object.keys(weeks).sort().reverse();
+  const dowLabel=["日","月","火","水","木","金","土"];
+  sortedKeys.forEach(k=>{
+    const [year,week]=k.split("-").map(Number);
+    const weekStart=dateOfISOWeekSun(year,week);
+    // compute date labels
+    const dates=[];
+    for(let i=0;i<7;i++){
+      const d=new Date(weekStart);
+      d.setDate(d.getDate()+i);
+      dates.push(`${d.getMonth()+1}/${d.getDate()}`);
+    }
+    const maxRows=Math.max(...weeks[k].map(a=>a.length));
+    // build table
+    const tbl=document.createElement("table");
+    tbl.className="weekTbl";
+    // head
+    const thead=document.createElement("thead");
+    const hr=document.createElement("tr");
+    for(let i=0;i<7;i++){
+      const th=document.createElement("th");
+      th.textContent=`${dowLabel[i]} ${dates[i]}`;
+      hr.appendChild(th);
+    }
+    thead.appendChild(hr);
+    tbl.appendChild(thead);
+    // body
+    const tbody=document.createElement("tbody");
+    for(let r=0;r<maxRows;r++){
+      const tr=document.createElement("tr");
+      for(let c=0;c<7;c++){
+        const td=document.createElement("td");
+        const entry=weeks[k][c][r];
+        if(entry){td.textContent=`${entry.drug} ${entry.time}`;}
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    }
+    tbl.appendChild(tbody);
+    // prepend to keep recent weeks top
+    weekDiv.appendChild(tbl);
+  });
+}
+
+function formatTime(d){
+  return d.getHours()+":"+d.getMinutes().toString().padStart(2,"0");
+}
+function dateOfISOWeekSun(year,week){
+  const firstJan=new Date(year,0,1);
+  const firstSun=new Date(firstJan);
+  firstSun.setDate(firstJan.getDate()-firstJan.getDay());
+  const target=new Date(firstSun);
+  target.setDate(firstSun.getDate()+ (week-1)*7);
+  return target;
+}
+function getISOWeekString(d){
+  const t=new Date(d.getFullYear(),0,1);
+  const dayMS=86400000;
+  return d.getFullYear()+"-"+Math.ceil((((d-t)/dayMS)+t.getDay()+1)/7);
+}
+
+// Service Worker registration for offline usage
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('service-worker.js');
