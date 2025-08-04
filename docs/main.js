@@ -1,6 +1,8 @@
 const TYPES = ["ピレノキシン","エピナスチン","プラノプロフェン"];
 const MAX_DAYS = 180;
 const STREAK_KEY = "eyedrop_streak";
+const GOAL_KEY = "eyedrop_goal";
+let dailyGoal = parseInt(localStorage.getItem(GOAL_KEY) || "2");
 const STORAGE_KEY = "eyedrop_entries";
 
 const typeSelect = document.getElementById("typeSelect");
@@ -8,6 +10,7 @@ const dropBtn = document.getElementById("dropBtn");
 let newestFirst = true;
 const logList = document.getElementById("log");
 const streakMsg = document.getElementById("streakMsg");
+const goalBtn = document.getElementById("goalBtn");
 
 // placeholder
 const ph = document.createElement("option");
@@ -66,7 +69,7 @@ function checkDailyComplete(){
     const t = new Date(e.date);
     return t.getFullYear() === y && t.getMonth() === m && t.getDate() === d;
   });
-  if(todayEntries.length >= 2){
+  if(todayEntries.length >= dailyGoal){
     // streak handling
     const todayStr = today.toISOString().substring(0,10); // YYYY-MM-DD
     const info = JSON.parse(localStorage.getItem(STREAK_KEY) || '{"last":"","count":0}');
@@ -135,6 +138,18 @@ const weekDiv = document.getElementById("weekView");
 const orderBtn = document.getElementById("orderBtn");
 const printBtn = document.getElementById("printBtn");
 if(printBtn){ printBtn.addEventListener("click",()=>window.print()); }
+
+if(goalBtn){
+  goalBtn.addEventListener("click",()=>{
+    const val = prompt("1日の点眼目標回数を入力", dailyGoal);
+    if(!val) return;
+    const n = parseInt(val);
+    if(isNaN(n) || n<1 || n>5){ alert("1〜5 の範囲で入力してください"); return; }
+    dailyGoal = n;
+    localStorage.setItem(GOAL_KEY, n.toString());
+    checkDailyComplete();
+  });
+}
 
 const manualBtn = document.getElementById("manualBtn");
 if(manualBtn){
