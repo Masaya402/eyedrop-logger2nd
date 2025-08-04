@@ -42,7 +42,7 @@ function prune(arr) {
 }
 function render() {
   let data = load();
-  if(!newestFirst) data = [...data].reverse();
+  data.sort((a,b)=> newestFirst ? new Date(b.date)-new Date(a.date) : new Date(a.date)-new Date(b.date));
   logList.innerHTML = "";
   data.forEach((e, idx) => {
     const li = document.createElement("li");
