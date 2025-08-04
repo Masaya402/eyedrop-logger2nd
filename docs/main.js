@@ -34,19 +34,36 @@ function prune(arr) {
 function render() {
   const data = load();
   logList.innerHTML = "";
-  data.forEach(e => {
+  data.forEach((e, idx) => {
     const li = document.createElement("li");
     const left = document.createElement("span");
     left.textContent = e.type;
     const right = document.createElement("span");
     const d = new Date(e.date);
     right.textContent = d.toLocaleDateString() + " " + d.toLocaleTimeString();
+    const del = document.createElement("button");
+    del.textContent = "削除";
+    del.className = "secondary";
+    del.onclick = () => {
+      const arr = load();
+      arr.splice(idx,1);
+      save(arr);
+      render();
+    };
     li.appendChild(left);
     li.appendChild(right);
+    li.appendChild(del);
     logList.appendChild(li);
   });
 }
 render();
+
+document.getElementById("clearBtn").addEventListener("click",()=>{
+  if(confirm("すべての記録を削除しますか？")){
+    save([]);
+    render();
+  }
+});
 
 // Service Worker registration for offline usage
 if ('serviceWorker' in navigator) {
