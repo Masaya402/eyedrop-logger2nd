@@ -231,7 +231,7 @@ function buildWeek(){
     const d=new Date(e.date);
     const key=getISOWeekString(d);
     if(!weeks[key]) weeks[key]=[[],[],[],[],[],[],[]];
-    weeks[key][d.getDay()].push({drug:`${e.type}(${e.eye||"両"})`,time:formatTime(d)});
+    weeks[key][d.getDay()].push({drug:e.type, eye:e.eye||"両", time:formatTime(d)});
   });
   let sortedKeys = Object.keys(weeks).sort();
   if(newestFirst) sortedKeys = sortedKeys.reverse();
@@ -268,7 +268,7 @@ function buildWeek(){
         const td=document.createElement("td");
         const entry=weeks[k][c][r];
         if(entry){
-          td.innerHTML = `<div>${entry.drug}</div><div class="time">${entry.time}</div>`;
+          td.innerHTML = `<div>${entry.drug}(${entry.eye})</div><div class="time">${entry.time}</div>`;
           td.className = drugClass(entry.drug);
         }
         tr.appendChild(td);
