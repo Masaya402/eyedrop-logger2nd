@@ -91,6 +91,21 @@ const orderBtn = document.getElementById("orderBtn");
 const printBtn = document.getElementById("printBtn");
 if(printBtn){ printBtn.addEventListener("click",()=>window.print()); }
 
+const manualBtn = document.getElementById("manualBtn");
+if(manualBtn){
+  manualBtn.addEventListener("click",()=>{
+    const dateStr = prompt("YYYY-MM-DD HH:mm 形式で入力", "");
+    if(!dateStr) return;
+    const d = new Date(dateStr);
+    if(isNaN(d)) { alert("日時の形式が不正です"); return; }
+    const entry = {date:d.toISOString(), type:typeSelect.value};
+    const data=load();
+    data.unshift(entry);
+    save(prune(data));
+    render();
+  });
+}
+
 const themeBtn = document.getElementById("themeBtn");
 if(themeBtn){
   themeBtn.addEventListener("click",()=>{
