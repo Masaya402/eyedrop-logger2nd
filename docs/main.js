@@ -170,7 +170,7 @@ function buildWeek(){
         const td=document.createElement("td");
         const entry=weeks[k][c][r];
         if(entry){
-          td.textContent = `${entry.drug} ${entry.time}`;
+          td.innerHTML = `<span>${entry.drug}</span><br><span class="time">${entry.time}</span>`;
           td.className = drugClass(entry.drug);
         }
         tr.appendChild(td);
