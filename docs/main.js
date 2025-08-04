@@ -17,6 +17,7 @@ typeSelect.appendChild(ph);
 
 typeSelect.addEventListener("change",()=>{
   typeSelect.className = drugClass(typeSelect.value);
+  typeSelect.style.color = drugColor(typeSelect.value);
 });
 
 TYPES.forEach(t => {
@@ -24,6 +25,7 @@ TYPES.forEach(t => {
   opt.value = t;
   opt.textContent = t;
   opt.className = drugClass(t);
+  opt.style.color = drugColor(t);
   typeSelect.appendChild(opt);
 });
 
@@ -177,6 +179,12 @@ function buildWeek(){
     // prepend to keep recent weeks top
     weekDiv.appendChild(tbl);
   });
+}
+
+function drugColor(name){
+  if(name==="プラノプロフェン") return "#8bc34a";
+  if(name==="エピナスチン") return "orange";
+  return "white";
 }
 
 function drugClass(name){
