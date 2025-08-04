@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EyeDrop Logger</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1976d2">
+  <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.3/css/pico.min.css" rel="stylesheet">
+  <style>
+    body{max-width:480px;margin:auto;padding:1rem;}
+    #log li{display:flex;justify-content:space-between;}
+  </style>
+</head>
+<body>
+  <h2>EyeDrop Logger</h2>
+  <select id="typeSelect"></select>
+  <button id="dropBtn" class="contrast">Drop!</button>
+
+  <h3>History (last 180 days)</h3>
+  <ul id="log"></ul>
+
+  <script src="main.js"></script>
+</body>
+</html>
