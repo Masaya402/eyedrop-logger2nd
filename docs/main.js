@@ -59,7 +59,7 @@ function render() {
     const right = document.createElement("span");
     right.className = "nowrap";
     const d = new Date(e.date);
-    right.textContent = d.toLocaleDateString() + " " + d.toLocaleTimeString();
+    right.textContent = d.toLocaleDateString() + " " + formatTime(d);
     const del = document.createElement("button");
     del.textContent = "削除";
     del.className = "secondary smallDel";
@@ -170,7 +170,7 @@ function buildWeek(){
         const td=document.createElement("td");
         const entry=weeks[k][c][r];
         if(entry){
-          td.innerHTML = `<span>${entry.drug}</span><br><span class="time">${entry.time}</span>`;
+          td.innerHTML = `<span>${entry.drug}</span><span class="time">${entry.time}</span>`;
           td.className = drugClass(entry.drug);
         }
         tr.appendChild(td);
