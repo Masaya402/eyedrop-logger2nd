@@ -11,6 +11,8 @@ let newestFirst = true;
 const logList = document.getElementById("log");
 const streakMsg = document.getElementById("streakMsg");
 const goalBtn = document.getElementById("goalBtn");
+function updateGoalLabel(){ if(goalBtn) goalBtn.textContent = `回数設定(${dailyGoal})`; }
+updateGoalLabel();
 
 // placeholder
 const ph = document.createElement("option");
@@ -147,6 +149,7 @@ if(goalBtn){
     if(isNaN(n) || n<1 || n>5){ alert("1〜5 の範囲で入力してください"); return; }
     dailyGoal = n;
     localStorage.setItem(GOAL_KEY, n.toString());
+    updateGoalLabel();
     checkDailyComplete();
   });
 }
