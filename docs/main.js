@@ -110,7 +110,8 @@ if (toggleBtn) {
 
 function buildWeek(){
   weekDiv.innerHTML="";
-  const data = load();
+  let data = load();
+  data.sort((a,b)=> newestFirst ? new Date(b.date)-new Date(a.date) : new Date(a.date)-new Date(b.date));
   // weeks[key] => array[7] each is array of {drug,time}
   const weeks={};
   data.forEach(e=>{
