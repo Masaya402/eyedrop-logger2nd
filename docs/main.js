@@ -97,11 +97,11 @@ if(themeBtn){
     const html = document.documentElement;
     const current = html.dataset.theme;
     if(current === "light"){
-      delete html.dataset.theme;
-      themeBtn.textContent = "🌙";
+      html.dataset.theme = "dark";
+      themeBtn.textContent = "☀️";
     }else{
       html.dataset.theme = "light";
-      themeBtn.textContent = "☀️";
+      themeBtn.textContent = "🌙";
     }
   });
 }
