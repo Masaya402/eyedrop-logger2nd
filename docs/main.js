@@ -1,10 +1,18 @@
-const TYPES = ["プラノプロフェン", "エピナスチン", "ピレノキシン"];
+const TYPES = ["プラノプロフェン","エピナスチン","ピレノキシン"];
 const MAX_DAYS = 180;
 const STORAGE_KEY = "eyedrop_entries";
 
 const typeSelect = document.getElementById("typeSelect");
 const dropBtn = document.getElementById("dropBtn");
 const logList = document.getElementById("log");
+
+// placeholder
+const ph = document.createElement("option");
+ph.value = "";
+ph.textContent = "薬剤を選択";
+ph.disabled = true;
+ph.selected = true;
+typeSelect.appendChild(ph);
 
 TYPES.forEach(t => {
   const opt = document.createElement("option");
