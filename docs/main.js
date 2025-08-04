@@ -85,7 +85,11 @@ if(orderBtn){
   orderBtn.addEventListener("click",()=>{
     newestFirst = !newestFirst;
     orderBtn.textContent = newestFirst ? "新→旧" : "旧→新";
-    render();
+    if(logList.style.display !== "none"){
+      render();
+    }else{
+      buildWeek();
+    }
   });
 }
 
@@ -115,7 +119,8 @@ function buildWeek(){
     if(!weeks[key]) weeks[key]=[[],[],[],[],[],[],[]];
     weeks[key][d.getDay()].push({drug:e.type,time:formatTime(d)});
   });
-  const sortedKeys=Object.keys(weeks).sort().reverse();
+  let sortedKeys = Object.keys(weeks).sort();
+  if(newestFirst) sortedKeys = sortedKeys.reverse();
   const dowLabel=["日","月","火","水","木","金","土"];
   sortedKeys.forEach(k=>{
     const [year,week]=k.split("-").map(Number);
