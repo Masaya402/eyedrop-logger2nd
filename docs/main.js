@@ -4,6 +4,7 @@ const STORAGE_KEY = "eyedrop_entries";
 
 const typeSelect = document.getElementById("typeSelect");
 const dropBtn = document.getElementById("dropBtn");
+let newestFirst = true;
 const logList = document.getElementById("log");
 
 // placeholder
@@ -40,7 +41,8 @@ function prune(arr) {
   return arr.filter(e => new Date(e.date).getTime() >= cutoff);
 }
 function render() {
-  const data = load();
+  let data = load();
+  if(!newestFirst) data = [...data].reverse();
   logList.innerHTML = "";
   data.forEach((e, idx) => {
     const li = document.createElement("li");
@@ -78,6 +80,14 @@ document.getElementById("clearBtn").addEventListener("click",()=>{
 // 週表示切替と生成
 const toggleBtn = document.getElementById("toggleView");
 const weekDiv = document.getElementById("weekView");
+const orderBtn = document.getElementById("orderBtn");
+if(orderBtn){
+  orderBtn.addEventListener("click",()=>{
+    newestFirst = !newestFirst;
+    orderBtn.textContent = newestFirst ? "新→旧" : "旧→新";
+    render();
+  });
+}
 
 if (toggleBtn) {
   toggleBtn.addEventListener("click", () => {
