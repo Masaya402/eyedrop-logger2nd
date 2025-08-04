@@ -90,6 +90,21 @@ const weekDiv = document.getElementById("weekView");
 const orderBtn = document.getElementById("orderBtn");
 const printBtn = document.getElementById("printBtn");
 if(printBtn){ printBtn.addEventListener("click",()=>window.print()); }
+
+const themeBtn = document.getElementById("themeBtn");
+if(themeBtn){
+  themeBtn.addEventListener("click",()=>{
+    const html = document.documentElement;
+    const current = html.dataset.theme;
+    if(current === "light"){
+      delete html.dataset.theme;
+      themeBtn.textContent = "🌙";
+    }else{
+      html.dataset.theme = "light";
+      themeBtn.textContent = "☀️";
+    }
+  });
+}
 if(orderBtn){
   orderBtn.addEventListener("click",()=>{
     newestFirst = !newestFirst;
