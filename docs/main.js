@@ -1,4 +1,4 @@
-const TYPES = ["Type A", "Type B", "Type C"];
+const TYPES = ["プラノプロフェン", "エピナスチン", "ピレノキシン"];
 const MAX_DAYS = 180;
 const STORAGE_KEY = "eyedrop_entries";
 
