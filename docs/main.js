@@ -39,6 +39,7 @@ function render() {
     const left = document.createElement("span");
     left.textContent = e.type;
     const right = document.createElement("span");
+    right.className = "nowrap";
     const d = new Date(e.date);
     right.textContent = d.toLocaleDateString() + " " + d.toLocaleTimeString();
     const del = document.createElement("button");
