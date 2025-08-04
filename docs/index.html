@@ -32,6 +32,11 @@
 <body>
   <h2>点眼薬の服用管理</h2>
   <select id="typeSelect" style="display:block;margin:0.5rem auto;"></select>
+  <select id="eyeSelect" style="display:block;margin:0.5rem auto;">
+    <option value="右目">右目</option>
+    <option value="左目">左目</option>
+    <option value="両目" selected>両目</option>
+  </select>
   <div style="display:flex;justify-content:center;gap:0.5rem;margin-bottom:1.5rem;"><button id="dropBtn" class="contrast">点眼済み</button><button id="manualBtn" class="secondary">手入力</button></div>
 
   <h3 style="position:relative;">１８０日期間 <button id="clearBtn" class="secondary" style="position:absolute;right:0;top:0;">全部削除</button></h3>

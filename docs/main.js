@@ -6,6 +6,7 @@ let dailyGoal = parseInt(localStorage.getItem(GOAL_KEY) || "2");
 const STORAGE_KEY = "eyedrop_entries";
 
 const typeSelect = document.getElementById("typeSelect");
+const eyeSelect = document.getElementById("eyeSelect");
 const dropBtn = document.getElementById("dropBtn");
 let newestFirst = true;
 const logList = document.getElementById("log");
@@ -37,7 +38,7 @@ TYPES.forEach(t => {
 });
 
 dropBtn.addEventListener("click", () => {
-  const entry = { date: new Date().toISOString(), type: typeSelect.value };
+  const entry = { date: new Date().toISOString(), type: typeSelect.value, eye: eyeSelect.value };
   const data = load();
   data.unshift(entry);
   save(prune(data));
@@ -103,7 +104,7 @@ function render() {
   data.forEach((e, idx) => {
     const li = document.createElement("li");
     const left = document.createElement("span");
-    left.textContent = e.type;
+    left.textContent = `${e.type} (${e.eye||"両目"})`;
     left.className = drugClass(e.type);
     const right = document.createElement("span");
     right.className = "nowrap";
@@ -164,7 +165,7 @@ if(manualBtn){
     if(dateStr.includes(" ")) dateStr = dateStr.replace(" ", "T");
     const d = new Date(dateStr);
     if(isNaN(d)) { alert("日時の形式が不正です"); return; }
-    const entry = {date:d.toISOString(), type:typeSelect.value};
+    const entry = {date:d.toISOString(), type:typeSelect.value, eye: eyeSelect.value};
     const data=load();
     data.unshift(entry);
     save(prune(data));
@@ -230,7 +231,7 @@ function buildWeek(){
     const d=new Date(e.date);
     const key=getISOWeekString(d);
     if(!weeks[key]) weeks[key]=[[],[],[],[],[],[],[]];
-    weeks[key][d.getDay()].push({drug:e.type,time:formatTime(d)});
+    weeks[key][d.getDay()].push({drug:`${e.type}(${e.eye||"両"})`,time:formatTime(d)});
   });
   let sortedKeys = Object.keys(weeks).sort();
   if(newestFirst) sortedKeys = sortedKeys.reverse();
