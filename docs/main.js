@@ -38,6 +38,7 @@ function render() {
     const li = document.createElement("li");
     const left = document.createElement("span");
     left.textContent = e.type;
+    left.className = drugClass(e.type);
     const right = document.createElement("span");
     right.className = "nowrap";
     const d = new Date(e.date);
@@ -67,8 +68,27 @@ document.getElementById("clearBtn").addEventListener("click",()=>{
 });
 
 // 週表示切替と生成
-const toggleBtn=document.getElementById("toggleView");\nconst weekDiv=document.getElementById("weekView");\n\nif(toggleBtn){\n  toggleBtn.addEventListener("click",()=>{\n    if(logList.style.display!=="none"){\n      logList.style.display="none";\n      buildWeek();\n      weekDiv.style.display="block";\n      toggleBtn.textContent="一覧表示";\n    }else{\n      weekDiv.style.display="none";\n      logList.style.display="block";\n      toggleBtn.textContent="週表示";\n    }\n  });\n}\n\nfunction buildWeek(){
+const toggleBtn = document.getElementById("toggleView");
+const weekDiv = document.getElementById("weekView");
+
+if (toggleBtn) {
+  toggleBtn.addEventListener("click", () => {
+    if (logList.style.display !== "none") {
+      logList.style.display = "none";
+      buildWeek();
+      weekDiv.style.display = "block";
+      toggleBtn.textContent = "一覧表示";
+    } else {
+      weekDiv.style.display = "none";
+      logList.style.display = "block";
+      toggleBtn.textContent = "週表示";
+    }
+  });
+}
+
+function buildWeek(){
   weekDiv.innerHTML="";
+  const data = load();
   // weeks[key] => array[7] each is array of {drug,time}
   const weeks={};
   data.forEach(e=>{
@@ -110,7 +130,10 @@ const toggleBtn=document.getElementById("toggleView");\nconst weekDiv=document.g
       for(let c=0;c<7;c++){
         const td=document.createElement("td");
         const entry=weeks[k][c][r];
-        if(entry){td.textContent=`${entry.drug} ${entry.time}`;}
+        if(entry){
+          td.textContent = `${entry.drug} ${entry.time}`;
+          td.className = drugClass(entry.drug);
+        }
         tr.appendChild(td);
       }
       tbody.appendChild(tr);
@@ -119,6 +142,12 @@ const toggleBtn=document.getElementById("toggleView");\nconst weekDiv=document.g
     // prepend to keep recent weeks top
     weekDiv.appendChild(tbl);
   });
+}
+
+function drugClass(name){
+  if(name==="プラノプロフェン") return "drug-pra";
+  if(name==="エピナスチン") return "drug-epi";
+  return "drug-pire";
 }
 
 function formatTime(d){
