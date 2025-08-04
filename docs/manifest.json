@@ -1,6 +1,6 @@
 {
-  "name": "EyeDrop Logger",
-  "short_name": "EyeDrop",
+  "name": "点眼薬の服用管理",
+  "short_name": "点眼管理",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
