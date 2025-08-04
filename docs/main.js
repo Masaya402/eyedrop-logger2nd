@@ -88,6 +88,8 @@ document.getElementById("clearBtn").addEventListener("click",()=>{
 const toggleBtn = document.getElementById("toggleView");
 const weekDiv = document.getElementById("weekView");
 const orderBtn = document.getElementById("orderBtn");
+const printBtn = document.getElementById("printBtn");
+if(printBtn){ printBtn.addEventListener("click",()=>window.print()); }
 if(orderBtn){
   orderBtn.addEventListener("click",()=>{
     newestFirst = !newestFirst;
