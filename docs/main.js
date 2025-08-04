@@ -43,7 +43,7 @@ function render() {
     right.textContent = d.toLocaleDateString() + " " + d.toLocaleTimeString();
     const del = document.createElement("button");
     del.textContent = "削除";
-    del.className = "secondary";
+    del.className = "secondary smallDel";
     del.onclick = () => {
       const arr = load();
       arr.splice(idx,1);
