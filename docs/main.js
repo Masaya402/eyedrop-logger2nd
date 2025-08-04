@@ -104,7 +104,7 @@ function render() {
   data.forEach((e, idx) => {
     const li = document.createElement("li");
     const left = document.createElement("span");
-    left.textContent = `${e.type} (${e.eye||"両目"})`;
+    left.textContent = `${e.type} (${eyeLabel(e.eye)})`;
     left.className = drugClass(e.type);
     const right = document.createElement("span");
     right.className = "nowrap";
@@ -231,7 +231,7 @@ function buildWeek(){
     const d=new Date(e.date);
     const key=getISOWeekString(d);
     if(!weeks[key]) weeks[key]=[[],[],[],[],[],[],[]];
-    weeks[key][d.getDay()].push({drug:e.type, eye:e.eye||"両目", time:formatTime(d)});
+    weeks[key][d.getDay()].push({drug:e.type, eye:eyeLabel(e.eye), time:formatTime(d)});
   });
   let sortedKeys = Object.keys(weeks).sort();
   if(newestFirst) sortedKeys = sortedKeys.reverse();
@@ -268,7 +268,7 @@ function buildWeek(){
         const td=document.createElement("td");
         const entry=weeks[k][c][r];
         if(entry){
-          td.innerHTML = `<div>${entry.drug}(${entry.eye})</div><div class="time">${entry.time}</div>`;
+          td.innerHTML = `<div>${entry.drug}(${eyeLabel(entry.eye)})</div><div class="time">${entry.time}</div>`;
           td.className = drugClass(entry.drug);
           td.style.color = drugColor(entry.drug);
         }
@@ -292,6 +292,10 @@ function drugClass(name){
   if(name==="プラノプロフェン") return "drug-pra";
   if(name==="エピナスチン") return "drug-epi";
   return "drug-pire";
+}
+
+function eyeLabel(v){
+  return (v==="右目"||v==="左目"||v==="両目") ? v : "両目";
 }
 
 function formatTime(d){
