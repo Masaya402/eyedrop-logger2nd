@@ -231,7 +231,7 @@ function buildWeek(){
     const d=new Date(e.date);
     const key=getISOWeekString(d);
     if(!weeks[key]) weeks[key]=[[],[],[],[],[],[],[]];
-    weeks[key][d.getDay()].push({drug:e.type, eye:e.eye||"両", time:formatTime(d)});
+    weeks[key][d.getDay()].push({drug:e.type, eye:e.eye||"両目", time:formatTime(d)});
   });
   let sortedKeys = Object.keys(weeks).sort();
   if(newestFirst) sortedKeys = sortedKeys.reverse();
